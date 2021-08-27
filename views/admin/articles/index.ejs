@@ -1,0 +1,54 @@
+<%- include ('../../partials/header.ejs') %>
+<body>
+    <%- include ('../../partials/navbar.ejs') %>
+    <div class="container">
+        <br>
+        <div class="card">
+            <div class="card-header">
+               <h2>Artigos</h2>
+            </div>
+            <div class="card-body">
+                <a class="btn btn-success" href="/admin/articles/new">Criar novo artigo</a><br><br>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Slug</th>
+                            <th>Categoria</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% articles.forEach(article => { %>
+                            <tr>
+                                <th><%= article.id %></th>
+                                <th><%= article.title %></th>
+                                <th><%= article.slug %></th>
+                                <th><%= article.category.title %></th>
+                                <th>
+                                    <form action="/articles/delete" method="POST" style="display: inline;" onsubmit="confirmDelete(event, this)">
+                                        <input type="hidden" name="id" value="<%= article.id%>">
+                                        <button class="btn btn-danger">Deletar</button>
+                                    </form>
+                                </th>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+<%- include ('../../partials/footer.ejs') %>
+<script>
+    function confirmDelete(event, form) {
+        event.preventDefault()
+        let decision = confirm("Tem certeza que quer deletar este artigo?")
+        if (decision) {
+            form.submit()
+        }
+    }
+
+
+</script>
